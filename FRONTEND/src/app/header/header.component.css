@@ -1,0 +1,9 @@
+.leftItems {
+    position: absolute;
+    right: 16px;
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
