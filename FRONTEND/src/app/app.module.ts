@@ -1,6 +1,6 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
@@ -9,10 +9,12 @@ import { AngularMaterialModule } from './angular-material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientModule } from './client/client.module';
+import { ApiHttpInterceptor } from './core/service/api-http-interceptor';
 import { ShoppingState } from './core/state/shopping-state';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 import { ProductModule } from './product/product.module';
 
 
@@ -62,7 +64,8 @@ const customNotifierOptions: NotifierOptions = {
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -74,8 +77,16 @@ const customNotifierOptions: NotifierOptions = {
     ClientModule,
     AngularMaterialModule,
     ProductModule,
-    NgxsModule.forRoot([ShoppingState])
+    NgxsModule.forRoot([ShoppingState]),
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiHttpInterceptor,
+      multi: true
+    }
+  ]
 })
 export class AppModule { }
