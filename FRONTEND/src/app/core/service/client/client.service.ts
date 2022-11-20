@@ -10,7 +10,6 @@ import { ServiceBase } from '../service-base';
 export class ClientService extends ServiceBase{
 
   apiEnd : string = "client";
-  clients: Array<Client> = [];
 
   constructor(private http: HttpClient) { 
     super()
@@ -20,25 +19,19 @@ export class ClientService extends ServiceBase{
     return this.http.get<Client[]>(this.apiUrl+this.apiEnd);
   }
 
-  post(client: Client): number {
-    client.id = this.clients.length + 1;
-    this.clients.push(client);
-    return client.id;
+  get(id: number): Observable<Client> {
+    return this.http.get<Client>(this.apiUrl+this.apiEnd+"/"+id);
   }
 
-  // getAll(): Array<Client> {
-  //   return this.clients;
-  // }
-
-  get(id: number): Client {
-    return this.clients.find(client => client.id == id) as Client;
+  post(client: Client): Observable<Client> {
+    return this.http.post<Client>(this.apiUrl+this.apiEnd, client);
   }
 
-  postLogin(): string {
-    return 'Login ok';
+  put(client: Client): Observable<Client> {
+    return this.http.put<Client>(this.apiUrl+this.apiEnd, client);
   }
 
-  getNbClients(): number {
-    return this.clients.length;
+  delete(id: number): Observable<Client> {
+    return this.http.delete<Client>(this.apiUrl+this.apiEnd+"/"+id);
   }
 }

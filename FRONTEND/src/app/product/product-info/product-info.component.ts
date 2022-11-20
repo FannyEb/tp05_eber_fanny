@@ -16,11 +16,9 @@ export class ProductInfoComponent implements OnInit {
   constructor(private productService: CatalogueService, private route: ActivatedRoute, private store: Store) { }
 
   ngOnInit(): void {
-    this.productService.getAll().subscribe(
-      data => {
-        this.product = data.find(p => p.id == this.route.snapshot.params['id']);
-      }
-    );
+    this.productService.get(this.route.snapshot.params['id']).subscribe((data: Product) => {
+      this.product = data;
+    });
   }
 
   addToShoppingList(product: Product): void{

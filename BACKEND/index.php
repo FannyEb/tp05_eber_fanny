@@ -137,7 +137,9 @@ $app->post('/api/product', function (Request $request, Response $response, $args
     $err=false;
 
     //check format name, price, description and image
-    if (empty($name) || empty($price) || empty($description) || empty($image) || !preg_match("/^[a-zA-Z0-9]/", $name) || !preg_match("/^[0-9]/", $price) || !preg_match("/^[a-zA-Z0-9]/", $description) || !preg_match("/^[a-zA-Z0-9]/", $image)) {
+    if (empty($name) || empty($price) || empty($description) || empty($image) || 
+    !preg_match("/^[a-zA-Z0-9]+$/", $name) || !preg_match("/^[0-9]+$/", $price) || !preg_match("/^[a-zA-Z0-9]+$/", $description) || 
+    !preg_match("/^[a-zA-Z0-9]+$/", $image)) {
         $err=true;
     }
 
@@ -170,7 +172,9 @@ $app->put('/api/product/{id}', function (Request $request, Response $response, $
     $err=false;
 
     //check format name, price, description and image
-    if (empty($name) || empty($price) || empty($description) || empty($image) || !preg_match("/^[a-zA-Z0-9]/", $name) || !preg_match("/^[0-9]/", $price) || !preg_match("/^[a-zA-Z0-9]/", $description) || !preg_match("/^[a-zA-Z0-9]/", $image)) {
+    if (empty($name) || empty($price) || empty($description) || empty($image) || 
+    !preg_match("/^[a-zA-Z0-9]+$/", $name) || !preg_match("/^[0-9]+$/", $price) || !preg_match("/^[a-zA-Z0-9]+$/", $description) || 
+    !preg_match("/^[a-zA-Z0-9]+$/", $image)) {
         $err=true;
     }
 
@@ -208,16 +212,16 @@ $app->delete('/api/product/{id}', function (Request $request, Response $response
 #region CLIENT
 
 //get all client from ./mock/clients.json
-$app->get('/api/clients', function (Request $request, Response $response, $args) {
-    $json = file_get_contents("./mock/clients.json");
+$app->get('/api/client', function (Request $request, Response $response, $args) {
+    $json = file_get_contents("./mock/client.json");
     $response = addHeaders($response);
     $response->getBody()->write($json);
     return $response;
 });
 
 //get client by id from ./mock/clients.json
-$app->get('/api/clients/{id}', function (Request $request, Response $response, $args) {
-    $json = file_get_contents("./mock/clients.json");
+$app->get('/api/client/{id}', function (Request $request, Response $response, $args) {
+    $json = file_get_contents("./mock/client.json");
     $array = json_decode($json, true);
     $id = $args ['id'];
     $array = $array[$id];
@@ -227,16 +231,16 @@ $app->get('/api/clients/{id}', function (Request $request, Response $response, $
 });
 
 //add client to ./mock/clients.json
-$app->post('/api/clients', function (Request $request, Response $response, $args) {
+$app->post('/api/client', function (Request $request, Response $response, $args) {
     $inputJSON = file_get_contents('php://input');
     $body = json_decode( $inputJSON, TRUE ); //convert JSON into array 
-    $lastName = $body ['lastname'] ?? ""; 
-    $firstName = $body ['firstname'] ?? "";
+    $lastName = $body ['lastName'] ?? ""; 
+    $firstName = $body ['firstName'] ?? "";
     $email = $body ['email'] ?? "";
     $phone = $body ['phone'] ?? "";
     $address = $body ['address'] ?? "";
     $city = $body ['city'] ?? "";
-    $codeCity = $body ['codecity'] ?? "";
+    $codeCity = $body ['codeCity'] ?? "";
     $country = $body ['country'] ?? "";
     $login = $body ['login'] ?? "";
     $password = $body ['password'] ?? "";
@@ -245,18 +249,20 @@ $app->post('/api/clients', function (Request $request, Response $response, $args
 
     //check format 
     if (empty($lastName) || empty($firstName) || empty($email) || empty($phone) || empty($address) || empty($city) || empty($codeCity) || empty($country) || empty($login) || empty($password) || empty($civility) || 
-        !preg_match("/^[a-zA-Z0-9]/", $lastName) || !preg_match("/^[a-zA-Z0-9]/", $firstName) || !preg_match("/^[a-zA-Z0-9]/", $email) || !preg_match("/^[0-9]/", $phone) || !preg_match("/^[a-zA-Z0-9]/", $address) || !preg_match("/^[a-zA-Z0-9]/", $city) || !preg_match("/^[0-9]/", $codeCity) || !preg_match("/^[a-zA-Z0-9]/", $country) || !preg_match("/^[a-zA-Z0-9]/", $login) || !preg_match("/^[a-zA-Z0-9/" , $password) || !preg_match("/^[a-zA-Z0-9]/", $civility)) {
+    !preg_match("/^[a-zA-Z0-9]+$/", $lastName) || !preg_match("/^[a-zA-Z0-9]+$/", $firstName) ||  
+    !preg_match("/^[a-zA-Z0-9]+$/", $city) || 
+    !preg_match("/^[0-9]+$/", $codeCity) || !preg_match("/^[a-zA-Z0-9]+$/", $country) || !preg_match("/^[a-zA-Z0-9]+$/", $civility)) {
         $err=true;
     }
 
     if (!$err) {
-        $json = file_get_contents("./mock/clients.json");
+        $json = file_get_contents("./mock/client.json");
         $array = json_decode($json, true);
         $id = count($array);
-        $array[] = array('id' => $id, 'lastname' => $lastName, 'firstname' => $firstName, 'email' => $email, 'phone' => $phone, 'address' => $address, 'city' => $city, 'codecity' => $codeCity, 'country' => $country, 'login' => $login, 'password' => $password, 'civility' => $civility);
+        $array[] = array('id' => $id, 'lastName' => $lastName, 'firstName' => $firstName, 'email' => $email, 'phone' => $phone, 'address' => $address, 'city' => $city, 'codeCity' => $codeCity, 'country' => $country, 'login' => $login, 'password' => $password, 'civility' => $civility);
         $json = json_encode($array);
         $response = addHeaders($response);
-        file_put_contents("./mock/clients.json", $json);
+        file_put_contents("./mock/client.json", $json);
         $response->getBody()->write($json);
     }
     else{          
@@ -266,16 +272,16 @@ $app->post('/api/clients', function (Request $request, Response $response, $args
 });
 
 //update client to ./mock/clients.json
-$app->put('/api/clients/{id}', function (Request $request, Response $response, $args) {
+$app->put('/api/client/{id}', function (Request $request, Response $response, $args) {
     $inputJSON = file_get_contents('php://input');
     $body = json_decode( $inputJSON, TRUE ); //convert JSON into array 
-    $lastName = $body ['lastname'] ?? ""; 
-    $firstName = $body ['firstname'] ?? "";
+    $lastName = $body ['lastName'] ?? ""; 
+    $firstName = $body ['firstName'] ?? "";
     $email = $body ['email'] ?? "";
     $phone = $body ['phone'] ?? "";
     $address = $body ['address'] ?? "";
     $city = $body ['city'] ?? "";
-    $codeCity = $body ['codecity'] ?? "";
+    $codeCity = $body ['codeCity'] ?? "";
     $country = $body ['country'] ?? "";
     $login = $body ['login'] ?? "";
     $password = $body ['password'] ?? "";
@@ -284,17 +290,19 @@ $app->put('/api/clients/{id}', function (Request $request, Response $response, $
 
     //check format 
     if (empty($lastName) || empty($firstName) || empty($email) || empty($phone) || empty($address) || empty($city) || empty($codeCity) || empty($country) || empty($login) || empty($password) || empty($civility) || 
-        !preg_match("/^[a-zA-Z0-9]/", $lastName) || !preg_match("/^[a-zA-Z0-9]/", $firstName) || !preg_match("/^[a-zA-Z0-9]/", $email) || !preg_match("/^[0-9]/", $phone) || !preg_match("/^[a-zA-Z0-9]/", $address) || !preg_match("/^[a-zA-Z0-9]/", $city) || !preg_match("/^[0-9]/", $codeCity) || !preg_match("/^[a-zA-Z0-9]/", $country) || !preg_match("/^[a-zA-Z0-9]/", $login) || !preg_match("/^[a-zA-Z0-9/" , $password) || !preg_match("/^[a-zA-Z0-9]/", $civility)) {
+        !preg_match("/^[a-zA-Z0-9]+$/", $lastName) || !preg_match("/^[a-zA-Z0-9]+$/", $firstName) ||  
+        !preg_match("/^[a-zA-Z0-9]+$/", $city) || 
+        !preg_match("/^[0-9]+$/", $codeCity) || !preg_match("/^[a-zA-Z0-9]+$/", $country) || !preg_match("/^[a-zA-Z0-9]+$/", $civility)) {
         $err=true;
     }
 
     if (!$err) {
-        $json = file_get_contents("./mock/clients.json");
+        $json = file_get_contents("./mock/client.json");
         $array = json_decode($json, true);
         $id = $args ['id'];
         $array[$id] = array('id' => $id, 'lastname' => $lastName, 'firstname' => $firstName, 'email' => $email, 'phone' => $phone, 'address' => $address, 'city' => $city, 'codecity' => $codeCity, 'country' => $country, 'login' => $login, 'password' => $password, 'civility' => $civility);
         $json = json_encode($array);
-        file_put_contents("./mock/clients.json", $json);
+        file_put_contents("./mock/client.json", $json);
         $response = addHeaders($response);
         $response->getBody()->write($json);
     }
@@ -305,13 +313,13 @@ $app->put('/api/clients/{id}', function (Request $request, Response $response, $
 });
 
 //delete client to ./mock/clients.json
-$app->delete('/api/clients/{id}', function (Request $request, Response $response, $args) {
-    $json = file_get_contents("./mock/clients.json");
+$app->delete('/api/client/{id}', function (Request $request, Response $response, $args) {
+    $json = file_get_contents("./mock/client.json");
     $array = json_decode($json, true);
     $id = $args ['id'];
     unset($array[$id]);
     $json = json_encode($array);
-    file_put_contents("./mock/clients.json", $json);
+    file_put_contents("./mock/client.json", $json);
     $response = addHeaders($response);
     $response->getBody()->write($json);
     return $response;

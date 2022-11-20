@@ -16,7 +16,9 @@ import { ClientService } from '../service/client/client.service';
     canActivate(
       next: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
-    ): Observable<boolean> | Promise<boolean> | boolean {
-      return this.clientService.getNbClients() > 0;
+    ): any {
+      this.clientService.getAll().subscribe((data: any) => {
+        return data.length === 0
+      });
     }
   }
