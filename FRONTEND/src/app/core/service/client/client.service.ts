@@ -17,7 +17,7 @@ export class ClientService extends ServiceBase{
   }
 
   getAll(): Observable<Client[]> {
-    return this.http.get<Client[]>(this.apiUrl+this.apiEnd, this.httpOptions);
+    return this.http.get<Client[]>(this.apiUrl+this.apiEnd);
   }
 
   post(client: Client): number {

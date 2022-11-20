@@ -14,7 +14,7 @@ export class CatalogueService extends ServiceBase {
   }
 
   getAll(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl+"product", this.httpOptions);
+    return this.http.get<Product[]>(this.apiUrl+"product");
   }
 
 }
