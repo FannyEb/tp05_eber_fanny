@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Client } from '../../model/client';
-import { ApiHttpInterceptor } from '../api-http-interceptor';
 import { ServiceBase } from '../service-base';
 
 @Injectable({
@@ -13,8 +12,8 @@ export class ClientService extends ServiceBase{
   apiEnd : string = "client";
   clients: Array<Client> = [];
 
-  constructor(private http: HttpClient,public override apiInterceptor: ApiHttpInterceptor) { 
-    super(apiInterceptor)
+  constructor(private http: HttpClient) { 
+    super()
   }
 
   getAll(): Observable<Client[]> {

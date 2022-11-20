@@ -17,6 +17,7 @@ export class ApiHttpInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(tap(
             (event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
+                    
                     let tab: Array<String>;
                     let enteteAuthorization = event.headers.get("Authorization");
                     if (enteteAuthorization != null) {
@@ -27,6 +28,14 @@ export class ApiHttpInterceptor implements HttpInterceptor {
                             this.jwtToken = tab[1];
                         }
 
+                    }
+                    //add jwtToken in every request
+                    if (this.jwtToken != "") {
+                        req = req.clone({
+                            setHeaders: {
+                                'Authorization': 'Bearer ' + this.jwtToken
+                            }
+                        });
                     }
                 }
 

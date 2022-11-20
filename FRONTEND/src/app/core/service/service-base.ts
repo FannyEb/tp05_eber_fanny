@@ -6,11 +6,10 @@ export class ServiceBase {
     apiUrl: string = environment.api;
     httpOptions = {
     };
-    constructor(public apiInterceptor: ApiHttpInterceptor) {
+    constructor() {
         this.httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.apiInterceptor.jwtToken
             })
         }
 

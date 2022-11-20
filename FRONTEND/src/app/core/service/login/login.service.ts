@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiHttpInterceptor } from '../api-http-interceptor';
 import { ServiceBase } from '../service-base';
 
 @Injectable({
@@ -9,8 +8,8 @@ import { ServiceBase } from '../service-base';
 })
 export class LoginService extends ServiceBase{
 
-  constructor(private http: HttpClient, public override apiInterceptor: ApiHttpInterceptor) { 
-    super(apiInterceptor)
+  constructor(private http: HttpClient) { 
+    super()
   }
 
   login(login: string, password: string): Observable<any> {

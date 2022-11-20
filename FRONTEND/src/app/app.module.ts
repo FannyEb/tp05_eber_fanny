@@ -10,6 +10,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientModule } from './client/client.module';
 import { ApiHttpInterceptor } from './core/service/api-http-interceptor';
+import { CatalogueService } from './core/service/catalogue/catalogue.service';
+import { ClientService } from './core/service/client/client.service';
+import { LoginService } from './core/service/login/login.service';
 import { ShoppingState } from './core/state/shopping-state';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
@@ -82,10 +85,12 @@ const customNotifierOptions: NotifierOptions = {
   ],
   bootstrap: [AppComponent],
   providers: [
+    LoginService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiHttpInterceptor,
-      multi: true
+      multi: true,
+      deps: [LoginService, CatalogueService, ClientService]
     }
   ]
 })

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Product } from '../../model/product';
-import { ApiHttpInterceptor } from '../api-http-interceptor';
 import { ServiceBase } from '../service-base';
 
 @Injectable({
@@ -10,8 +9,8 @@ import { ServiceBase } from '../service-base';
 })
 export class CatalogueService extends ServiceBase {
 
-  constructor(private http: HttpClient, public override apiInterceptor: ApiHttpInterceptor) { 
-    super(apiInterceptor)
+  constructor(private http: HttpClient) { 
+    super()
   }
 
   getAll(): Observable<Product[]> {
