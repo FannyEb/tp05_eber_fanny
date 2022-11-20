@@ -8,16 +8,17 @@
                 <a mat-button [routerLink]="['/product','shopping']"> Catalogue </a>
             </div>
             <div class="leftItems">
-                <a class="margin" [routerLink]="['/product']">
-                    <mat-icon matBadge="{{numberProduct$ | async}}" matBadgeColor="warn" class="material-symbols-outlined">shopping_bag</mat-icon>
+                <a *ngIf="username" class="margin" [routerLink]="['/product']">
+                    <mat-icon matBadge="{{numberProduct$ | async}}" matBadgeColor="warn" class="max-width material-symbols-outlined">shopping_bag</mat-icon>
                 </a>
-                <ng-container class="margin" *ngIf="username; else noUsername">
-                    <mat-icon class="material-symbols-outlined">account_circle</mat-icon>
-                    <span>{{username}}</span>
-                    <mat-icon class="material-symbols-outlined" (click)="logout()">logout</mat-icon>
+                <mat-icon *ngIf="!username" matBadge="{{numberProduct$ | async}}" matBadgeColor="warn" class="margin max-width material-symbols-outlined">shopping_bag</mat-icon>
+                <ng-container *ngIf="username; else noUsername">
+                    <mat-icon class="margin-user material-symbols-outlined">account_circle</mat-icon>
+                    <span class="margin-user">{{username}}</span>
+                    <mat-icon  class="margin-user material-symbols-outlined" (click)="logout()">logout</mat-icon>
                 </ng-container>
-                <ng-template #noUsername class="margin">
-                    <mat-icon class="material-symbols-outlined" [routerLink]="['/']">login</mat-icon>
+                <ng-template #noUsername>
+                    <mat-icon class="margin-user max-width material-symbols-outlined" [routerLink]="['/']">login</mat-icon>
                 </ng-template>
             </div>
             

@@ -9,8 +9,17 @@
 a{
     color: white;
     text-decoration: none;
+    max-height: 24px;
 }
 
 .margin{
-    margin-right: 1rem;
+    margin-right: 2rem;
+}
+
+.margin-user{
+    margin-right: 0.5rem;
+}
+
+.max-width{
+    width: 100%;
 }

@@ -24,7 +24,6 @@ export class LoginComponent {
       (data) => {
         this.isConnected = true;
         console.log('loginComponent onSubmit',data['login']);
-
         this.username.emit(data['login']);
         this.notifier.notify('success', 'Vous êtes connecté');
       }
