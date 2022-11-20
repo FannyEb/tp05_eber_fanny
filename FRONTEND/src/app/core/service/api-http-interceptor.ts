@@ -18,8 +18,7 @@ export class ApiHttpInterceptor implements HttpInterceptor {
             (event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
                     let tab: Array<String>;
-                    let enteteAuthorization =
-                        event.headers.get("Authorization");
+                    let enteteAuthorization = event.headers.get("Authorization");
                     if (enteteAuthorization != null) {
 
                         tab = enteteAuthorization.split(/Bearer\s+(.*)$/i);
