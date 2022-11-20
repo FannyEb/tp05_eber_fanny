@@ -42,7 +42,7 @@ export class ApiHttpInterceptor implements HttpInterceptor {
                         // redirection vers la home page
                         this.route.navigate(["/"]);
                         this.notifier.notify("error", "Erreur d'authentification");
-                        localStorage.removeItem("username");
+                        location.reload();
                     }
                 }
             }

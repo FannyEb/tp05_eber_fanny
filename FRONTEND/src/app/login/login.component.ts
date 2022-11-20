@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { NotifierService } from 'angular-notifier';
 import { LoginService } from '../core/service/login/login.service';
 
 @Component({
@@ -13,12 +14,19 @@ export class LoginComponent {
     password: new FormControl('')
   });
 
-  constructor(private loginService: LoginService) { }
+  isConnected = false
+
+  @Output() username = new EventEmitter<string>();
+  constructor(private loginService: LoginService, private notifier: NotifierService) { }
 
   onSubmit() {
     this.loginService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(
       (data) => {
-        localStorage.setItem('username', data.login);
+        this.isConnected = true;
+        console.log('loginComponent onSubmit',data['login']);
+
+        this.username.emit(data['login']);
+        this.notifier.notify('success', 'Vous êtes connecté');
       }
     );
   }

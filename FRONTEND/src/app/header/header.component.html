@@ -2,22 +2,26 @@
     <mat-toolbar color="primary">
         <mat-toolbar-row>
             <a [routerLink]="['']"><h1>TP5</h1></a>
-            <div>
+            <div *ngIf="username">
                 <a mat-button [routerLink]="['/client','add']"> Ajout client </a>
                 <a mat-button [routerLink]="['/client']"> Liste client </a>
                 <a mat-button [routerLink]="['/product','shopping']"> Catalogue </a>
             </div>
-            <a class="leftItems" [routerLink]="['/product']">
-                <mat-icon matBadge="{{numberProduct$ | async}}" matBadgeColor="warn" class="material-symbols-outlined">shopping_bag</mat-icon>
-            </a>
-            <ng-container *ngIf="username; else noUsername">
-                <mat-icon class="material-symbols-outlined">account_circle</mat-icon>
-                <span>{{username}}</span>
-                <mat-icon class="material-symbols-outlined" (click)="logout()">logout</mat-icon>
-            </ng-container>
-            <ng-template #noUsername >
-                <mat-icon class="material-symbols-outlined" [routerLink]="['/']">login</mat-icon>
-            </ng-template>
+            <div class="leftItems">
+                <a class="margin" [routerLink]="['/product']">
+                    <mat-icon matBadge="{{numberProduct$ | async}}" matBadgeColor="warn" class="material-symbols-outlined">shopping_bag</mat-icon>
+                </a>
+                <ng-container class="margin" *ngIf="username; else noUsername">
+                    <mat-icon class="material-symbols-outlined">account_circle</mat-icon>
+                    <span>{{username}}</span>
+                    <mat-icon class="material-symbols-outlined" (click)="logout()">logout</mat-icon>
+                </ng-container>
+                <ng-template #noUsername class="margin">
+                    <mat-icon class="material-symbols-outlined" [routerLink]="['/']">login</mat-icon>
+                </ng-template>
+            </div>
+            
         </mat-toolbar-row>
     </mat-toolbar>
 </header>
+<app-login *ngIf="!username" (username)="getUsername($event)"></app-login>

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { fromEvent, Observable } from 'rxjs';
 import { ShoppingState } from '../core/state/shopping-state';
 
 @Component({
@@ -8,35 +8,20 @@ import { ShoppingState } from '../core/state/shopping-state';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit , OnDestroy {
+export class HeaderComponent {
 
   @Select(ShoppingState.getNbProducts)
   numberProduct$!: Observable<number>;
 
   username: string | null = "";
 
-  constructor() { }
-  ngOnDestroy(): void {
-    window.removeEventListener("storage", this.listener, false);
-  }
-
-  ngOnInit(): void {
-    if (window.addEventListener) {
-      window.addEventListener("storage", this.listener, false);
-    }
-  }
-
-  listener(){
-    if(localStorage.getItem('username') != null && localStorage.getItem('username') != ""){
-      this.username = localStorage.getItem('username');
-    }
-    else{
-      this.username = "";
-    }
-  }
-
-  logout(){
-    localStorage.removeItem('username');
+  logout() {
     this.username = "";
+    location.reload();
+  }
+
+  getUsername($event : any) {
+    console.log('header getUsername',$event);
+    this.username = $event;
   }
 }
