@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { fromEvent, Observable } from 'rxjs';
 import { ShoppingState } from '../core/state/shopping-state';
@@ -15,9 +16,11 @@ export class HeaderComponent {
 
   username: string | null = "";
 
+  constructor(private router: Router) { }
+  
   logout() {
     this.username = "";
-    location.reload();
+    this.router.navigate(['/']);
   }
 
   getUsername($event : any) {
