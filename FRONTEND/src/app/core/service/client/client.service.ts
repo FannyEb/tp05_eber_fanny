@@ -10,28 +10,31 @@ import { ServiceBase } from '../service-base';
 export class ClientService extends ServiceBase{
 
   apiEnd : string = "client";
+  clients : Client[] = [];
 
   constructor(private http: HttpClient) { 
     super()
   }
 
-  getAll(): Observable<Client[]> {
-    return this.http.get<Client[]>(this.apiUrl+this.apiEnd);
+  getAll(): Client[] {
+    return this.clients  
   }
 
-  get(id: number): Observable<Client> {
-    return this.http.get<Client>(this.apiUrl+this.apiEnd+"/"+id);
+  get(id: number): Client | undefined {
+    return this.clients.find(c => c.id == id);
   }
 
-  post(client: Client): Observable<Client> {
-    return this.http.post<Client>(this.apiUrl+this.apiEnd, client);
+  post(client: Client): Observable<Client>  {
+    client.id = this.clients.length
+    return this.http.post<Client>(this.apiUrl+this.apiEnd, client)
   }
 
-  put(client: Client): Observable<Client> {
-    return this.http.put<Client>(this.apiUrl+this.apiEnd, client);
+  put(client: Client) {
+    this.clients = this.clients.filter(c => c.id != client.id);
+    this.clients.push(client);
   }
 
-  delete(id: number): Observable<Client> {
-    return this.http.delete<Client>(this.apiUrl+this.apiEnd+"/"+id);
+  delete(id: number) {
+    this.clients = this.clients.filter(c => c.id != id);
   }
 }

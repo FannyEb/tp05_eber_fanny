@@ -16,9 +16,10 @@ export class ClientInfoComponent implements OnInit{
   constructor(private route: ActivatedRoute, private clientService: ClientService) { }
 
   ngOnInit() {
-    this.clientService.get(this.route.snapshot.params['id']).subscribe((data: Client) => {
-      this.client = data;
-    });
+    let getClient = this.clientService.get(this.route.snapshot.params['id'])
+    if(getClient){
+      this.client = getClient
+    }
   }
 
 }

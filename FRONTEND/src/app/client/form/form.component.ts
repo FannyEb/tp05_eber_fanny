@@ -44,11 +44,12 @@ export class FormComponent {
       return
     }
 
-    this.clientService.post(this.client).subscribe((data: any) => {
-      if (data.id) {
-        this.notifier.notify('success', 'Le client a été ajouté avec succès');
-        this.router.navigate(['/client', data.id]);
+    this.clientService.post(this.client).subscribe(
+      (client) => {
+        this.clientService.clients.push(client);
+        this.notifier.notify('success', 'Votre compte a bien été créé');
+        this.router.navigate(['/client', client.id]);
       }
-    });
+    );      
   }
 }

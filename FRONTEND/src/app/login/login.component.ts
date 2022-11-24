@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotifierService } from 'angular-notifier';
 import { LoginService } from '../core/service/login/login.service';
 
@@ -10,7 +10,7 @@ import { LoginService } from '../core/service/login/login.service';
 })
 export class LoginComponent {
   loginForm: FormGroup = new FormGroup({
-    username: new FormControl(''),
+    username: new FormControl('', [Validators.required]),
     password: new FormControl('')
   });
 

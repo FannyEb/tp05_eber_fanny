@@ -17,8 +17,6 @@ import { ClientService } from '../service/client/client.service';
       next: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
     ): any {
-      this.clientService.getAll().subscribe((data: any) => {
-        return data.length === 0
-      });
+      return this.clientService.getAll().length !== 0
     }
   }
