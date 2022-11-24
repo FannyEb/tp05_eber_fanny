@@ -34,6 +34,8 @@ export class FormComponent {
   constructor(private router: Router, private notifier: NotifierService, private clientService: ClientService) { }
 
   validate() {
+    this.clientForm.markAllAsTouched();
+    
     // password and confirmPassword must be equals
     if (!this.client.isPasswordConfirm()) {
       this.notifier.notify('error', 'Les mots de passe ne sont pas identiques');
